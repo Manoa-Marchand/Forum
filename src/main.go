@@ -395,13 +395,13 @@ func addCookie(w http.ResponseWriter, pseudo string) {
 
 func createDatabase() {
 	database, _ := sql.Open("sqlite3", "./databases/users.db")
-	statement, _ := database.Prepare("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, firstname VARCHAR(23) NOT NULL, mail VARCHAR(255) UNIQUE NOT NULL, password VARCHAR(255) NOT NULL, pseudo VARCHAR(25) UNIQUE NOT NULL)")
+	statement, _ := database.Prepare("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, firstname TEXT NOT NULL, mail TEXT UNIQUE NOT NULL, password TEXT NOT NULL, pseudo TEXT UNIQUE NOT NULL)")
 	statement.Exec()
 	database2, _ := sql.Open("sqlite3", "./databases/posts.db")
-	statement2, _ := database2.Prepare("CREATE TABLE IF NOT EXISTS posts (id INTEGER PRIMARY KEY AUTOINCREMENT, title VARCHAR(100) NOT NULL, content TEXT NOT NULL, date VARCHAR(10) NOT NULL, like TEXT NOT NULL, category TEXT NOT NULL, auteur TEXT NOT NULL)")
+	statement2, _ := database2.Prepare("CREATE TABLE IF NOT EXISTS posts (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, content TEXT NOT NULL, date TEXT NOT NULL, like TEXT NOT NULL, category TEXT NOT NULL, auteur TEXT NOT NULL)")
 	statement2.Exec()
 	database3, _ := sql.Open("sqlite3", "./databases/session.db")
-	statement3, _ := database3.Prepare("CREATE TABLE IF NOT EXISTS session (id INTEGER PRIMARY KEY AUTOINCREMENT, pseudo VARCHAR(25) NOT NULL, cookie VARCHAR(100) NOT NULL)")
+	statement3, _ := database3.Prepare("CREATE TABLE IF NOT EXISTS session (id INTEGER PRIMARY KEY AUTOINCREMENT, pseudo TEXT NOT NULL, cookie TEXT NOT NULL)")
 	statement3.Exec()
 	database4, _ := sql.Open("sqlite3", "./databases/likes.db")
 	statement4, _ := database4.Prepare("CREATE TABLE IF NOT EXISTS likes (id INTEGER PRIMARY KEY AUTOINCREMENT, pseudo TEXT NOT NULL, post TEXT NOT NULL)")

@@ -2,7 +2,6 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
 	"net/http"
 	"strconv"
 	"strings"
@@ -27,8 +26,9 @@ type Post struct {
 	Title    string
 	Content  string
 	Date     string
-	Like     int
+	Like     string
 	Category string
+	Auteur   string
 }
 
 type User struct {
@@ -46,7 +46,7 @@ var Erreur2, Post2, Log2, notLogin2 string
 func main() {
 	fs := http.FileServer(http.Dir("./templates/assets"))
 	http.Handle("/assets/", http.StripPrefix("/assets/", fs))
-	port := "8099"
+	port := "8102"
 	createDatabase()
 	http.HandleFunc("/", index)
 	http.HandleFunc("/login", login)
@@ -68,7 +68,6 @@ func like(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 	} else {
 		ID := r.FormValue("id")
-		fmt.Println(ID)
 		myCookie, err := r.Cookie("sessionId")
 		if err != nil {
 			//mettre une erreur
@@ -91,7 +90,7 @@ func like(w http.ResponseWriter, r *http.Request) {
 		statement, _ := database.Prepare("INSERT INTO likes (pseudo, post) VALUES (?, ?)")
 		statement.Exec(pseudo, ID)
 		http.Redirect(w, r, "/", http.StatusSeeOther)
-		fmt.Println("liké")
+		return
 	}
 }
 
@@ -130,12 +129,13 @@ func wantpost(w http.ResponseWriter, r *http.Request) {
 }
 
 func post(w http.ResponseWriter, r *http.Request) {
+	refreshLike()
 	id := r.FormValue("id")
 	database, _ := sql.Open("sqlite3", "./databases/posts.db")
 	rows, _ := database.Query("SELECT * FROM posts  WHERE id = '" + id + "' ")
 	var post Post
 	if rows.Next() {
-		rows.Scan(&post.Id, &post.Title, &post.Content, &post.Date, &post.Like, &post.Category)
+		rows.Scan(&post.Id, &post.Title, &post.Content, &post.Date, &post.Like, &post.Category, &post.Auteur)
 	}
 	rows.Close()
 	files := []string{"./templates/post.html", "./templates/template.html"}
@@ -149,30 +149,16 @@ func post(w http.ResponseWriter, r *http.Request) {
 }
 
 func postList(w http.ResponseWriter, r *http.Request) {
+	refreshLike()
 	database, _ := sql.Open("sqlite3", "./databases/posts.db")
 	rows, _ := database.Query("SELECT * FROM posts ")
 	var tabpost []Post
 	for rows.Next() {
 		var post Post
-		rows.Scan(&post.Id, &post.Title, &post.Content, &post.Date, &post.Like, &post.Category)
+		rows.Scan(&post.Id, &post.Title, &post.Content, &post.Date, &post.Like, &post.Category, &post.Auteur)
 		tabpost = append(tabpost, post)
 	}
 	rows.Close()
-	database2, _ := sql.Open("sqlite3", "./databases/likes.db")
-	for i2 := 0; i2 < 3; i2++ {
-		idPost := strconv.Itoa(tabpost[i2].Id)
-
-		rows2, _ := database2.Query("SELECT id FROM likes WHERE post = '" + idPost + "' ")
-		var nblike int
-		for rows2.Next() {
-			var id1 int
-			rows2.Scan(&id1)
-			nblike++
-		}
-		tabpost[i2].Like = nblike
-		rows2.Close()
-
-	}
 	files := []string{"./templates/postList.html", "./templates/template.html"}
 
 	tpl, err := template.ParseFiles(files...)
@@ -184,13 +170,20 @@ func postList(w http.ResponseWriter, r *http.Request) {
 }
 
 func newPost(w http.ResponseWriter, r *http.Request) {
+	myCookie, err := r.Cookie("sessionId")
+	if err != nil {
+		//mettre une erreur
+	}
+	sessionId := myCookie.Value
+	z := strings.Split(sessionId, ":")
+	pseudo := z[0]
 	title := r.FormValue("titlePost")
 	content := r.FormValue("contentPost")
 	category := r.FormValue("categoryPost")
 	date := strconv.Itoa(time.Now().Day()) + "/" + strconv.Itoa(int(time.Now().Month())) + "/" + strconv.Itoa(time.Now().Year())
 	database, _ := sql.Open("sqlite3", "./databases/posts.db")
-	statement, _ := database.Prepare("INSERT INTO posts (title, content, date, like, category) VALUES (?, ?, ?, ?, ?)")
-	statement.Exec(title, content, date, 0, category)
+	statement, _ := database.Prepare("INSERT INTO posts (title, content, date, like, category, auteur) VALUES (?, ?, ?, ?, ?, ?)")
+	statement.Exec(title, content, date, "0", category, pseudo)
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 
 }
@@ -259,33 +252,21 @@ func register(w http.ResponseWriter, r *http.Request) {
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
+	refreshLike()
 	database, _ := sql.Open("sqlite3", "./databases/posts.db")
-	rows, _ := database.Query("SELECT * FROM posts ")
+	rows, _ := database.Query("SELECT * FROM posts ORDER BY like DESC")
 	var send sendIndex
 	var tabpost []Post
 	for i := 0; i < 4; rows.Next() {
 		if i > 0 {
 			var post Post
-			rows.Scan(&post.Id, &post.Title, &post.Content, &post.Date, &post.Like, &post.Category)
+			rows.Scan(&post.Id, &post.Title, &post.Content, &post.Date, &post.Like, &post.Category, &post.Auteur)
 			tabpost = append(tabpost, post)
 		}
 		i++
 	}
 	rows.Close()
-	database2, _ := sql.Open("sqlite3", "./databases/likes.db")
-	for i2 := 0; i2 < 3; i2++ {
-		idPost := strconv.Itoa(tabpost[i2].Id)
 
-		rows2, _ := database2.Query("SELECT id FROM likes WHERE post = '" + idPost + "' ")
-		var nblike int
-		for rows2.Next() {
-			var id1 int
-			rows2.Scan(&id1)
-			nblike++
-		}
-		tabpost[i2].Like = nblike
-		rows2.Close()
-	}
 	send.Posts = tabpost
 
 	if Erreur2 == "" {
@@ -322,6 +303,29 @@ func index(w http.ResponseWriter, r *http.Request) {
 		print(err.Error())
 	} else {
 		tpl.Execute(w, &send)
+	}
+}
+
+func refreshLike() {
+	database, _ := sql.Open("sqlite3", "./databases/posts.db")
+	rows, _ := database.Query("SELECT * FROM posts ")
+	var lenPost int
+	for rows.Next() {
+		lenPost++
+	}
+	rows.Close()
+	database2, _ := sql.Open("sqlite3", "./databases/likes.db")
+	for i := 0; i < lenPost; i++ {
+		idPost := strconv.Itoa(i + 1)
+		rows2, _ := database2.Query("SELECT id FROM likes WHERE post = '" + idPost + "' ")
+		var nblike int
+		for rows2.Next() {
+			nblike++
+		}
+		like := strconv.Itoa(nblike)
+		rows3, _ := database.Prepare("UPDATE posts SET like ='" + like + "' WHERE id = '" + idPost + "'")
+		rows3.Exec()
+		rows2.Close()
 	}
 }
 
@@ -383,7 +387,7 @@ func createDatabase() {
 	statement, _ := database.Prepare("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, firstname VARCHAR(23) NOT NULL, mail VARCHAR(255) UNIQUE NOT NULL, password VARCHAR(255) NOT NULL, pseudo VARCHAR(25) UNIQUE NOT NULL)")
 	statement.Exec()
 	database2, _ := sql.Open("sqlite3", "./databases/posts.db")
-	statement2, _ := database2.Prepare("CREATE TABLE IF NOT EXISTS posts (id INTEGER PRIMARY KEY AUTOINCREMENT, title VARCHAR(100) NOT NULL, content TEXT NOT NULL, date VARCHAR(10) NOT NULL, like INTEGER NOT NULL, category TEXT NOT NULL)")
+	statement2, _ := database2.Prepare("CREATE TABLE IF NOT EXISTS posts (id INTEGER PRIMARY KEY AUTOINCREMENT, title VARCHAR(100) NOT NULL, content TEXT NOT NULL, date VARCHAR(10) NOT NULL, like TEXT NOT NULL, category TEXT NOT NULL, auteur TEXT NOT NULL)")
 	statement2.Exec()
 	database3, _ := sql.Open("sqlite3", "./databases/session.db")
 	statement3, _ := database3.Prepare("CREATE TABLE IF NOT EXISTS session (id INTEGER PRIMARY KEY AUTOINCREMENT, pseudo VARCHAR(25) NOT NULL, cookie VARCHAR(100) NOT NULL)")

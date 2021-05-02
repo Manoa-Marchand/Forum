@@ -7,7 +7,16 @@ body{
   background-color: #FEECDF;
 }
 
-
+footer{
+  background-color: #29BF12;
+  padding-top:50px;
+  height:50px;
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  color: white;
+  text-align: center;
+}
 a{
   text-decoration: none;
   color: #000;

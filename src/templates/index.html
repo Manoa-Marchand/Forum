@@ -7,6 +7,7 @@
         <div id="left">
             <h2> Post les plus likés</h2>
             {{range $article := .Posts}}
+            {{if .Title}}
               <form action="/post?id={{$article.Id}}" method="post">
                 <button id="button" name="id" type="submit" value="{{$article.Id}}">
                     <div id="titleButton"><h3>{{$article.Title}}</h3></div>
@@ -17,6 +18,7 @@
                     
                 </button>
               </form>
+              {{end}}
             {{end}}
         </div>
 

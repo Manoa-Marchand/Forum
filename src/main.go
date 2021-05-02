@@ -66,6 +66,7 @@ func like(w http.ResponseWriter, r *http.Request) {
 	if !isLogged(r) {
 		Erreur2 = "Erreur, Vous devez être connecté pour écrire un poste"
 		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
 	} else {
 		ID := r.FormValue("id")
 		myCookie, err := r.Cookie("sessionId")
@@ -106,15 +107,18 @@ func logout(w http.ResponseWriter, r *http.Request) {
 	rows, _ := database.Prepare("DELETE FROM session WHERE pseudo = ?")
 	_, _ = rows.Exec(pseudo)
 	http.Redirect(w, r, "/", http.StatusSeeOther)
+	return
 }
 
 func looklog(w http.ResponseWriter, r *http.Request) {
 	if !isLogged(r) {
 		notLogin2 = "notLog"
 		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
 	} else {
 		Log2 = "Log"
 		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
 	}
 }
 
@@ -122,9 +126,11 @@ func wantpost(w http.ResponseWriter, r *http.Request) {
 	if !isLogged(r) {
 		Erreur2 = "Erreur, Vous devez être connecté pour ércire un poste"
 		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
 	} else {
 		Post2 = "Connecté"
 		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
 	}
 }
 
@@ -185,6 +191,7 @@ func newPost(w http.ResponseWriter, r *http.Request) {
 	statement, _ := database.Prepare("INSERT INTO posts (title, content, date, like, category, auteur) VALUES (?, ?, ?, ?, ?, ?)")
 	statement.Exec(title, content, date, "0", category, pseudo)
 	http.Redirect(w, r, "/", http.StatusSeeOther)
+	return
 
 }
 
@@ -202,14 +209,17 @@ func login(w http.ResponseWriter, r *http.Request) {
 	if tempUser.mail != mail || tempUser.password == "" {
 		Erreur2 = "Erreur lors de la connection, Mot de passe ou mail incorrect bza"
 		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
 	}
 	err := bcrypt.CompareHashAndPassword([]byte(tempUser.password), []byte(password))
 	if err != nil {
 		Erreur2 = "Erreur lors de la connection, Mot de passe ou mail incorrect"
 		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
 	} else {
 		addCookie(w, tempUser.pseudo)
 		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
 	}
 }
 func register(w http.ResponseWriter, r *http.Request) {
@@ -221,7 +231,7 @@ func register(w http.ResponseWriter, r *http.Request) {
 	if password != confirmpassword {
 		Erreur2 = "Erreur lors de l'inscription, les mots de passes ne sont pas identiques"
 		http.Redirect(w, r, "/", http.StatusSeeOther)
-
+		return
 	}
 	database, _ := sql.Open("sqlite3", "./databases/users.db")
 	rows, _ := database.Query("SELECT mail, pseudo FROM users WHERE mail = '" + mail + "'")
@@ -249,6 +259,7 @@ func register(w http.ResponseWriter, r *http.Request) {
 	statement.Exec(firstname, mail, hashedPassword, pseudo)
 	addCookie(w, pseudo)
 	http.Redirect(w, r, "/", http.StatusSeeOther)
+	return
 }
 
 func index(w http.ResponseWriter, r *http.Request) {

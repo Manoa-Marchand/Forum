@@ -22,4 +22,4 @@ To access it, you can open a browser and enter <http://127.0.0.1:8080/> if you d
 ## Example:
 
 ![alt text](https://git.ytrack.learn.ynov.com/BAUMEUNIER/forum/raw/branch/master/livrable/image/Capture%20d%e2%80%99%c3%a9cran%201.png) 
-![alt text](https://git.ytrack.learn.ynov.com/BAUMEUNIER/forum/src/branch/master/livrable/image/Capture%20d%e2%80%99%c3%a9cran%202.png)
+![alt text](https://git.ytrack.learn.ynov.com/BAUMEUNIER/forum/raw/branch/master/livrable/image/Capture%20d%e2%80%99%c3%a9cran%202.png)

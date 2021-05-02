@@ -46,7 +46,7 @@ var Erreur2, Post2, Log2, notLogin2 string
 func main() {
 	fs := http.FileServer(http.Dir("./templates/assets"))
 	http.Handle("/assets/", http.StripPrefix("/assets/", fs))
-	port := "8102"
+	port := "8080"
 	createDatabase()
 	http.HandleFunc("/", index)
 	http.HandleFunc("/login", login)

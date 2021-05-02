@@ -1,0 +1,16 @@
+{{template "template" .}}
+{{define "title"}}{{.Title}}{{end}}
+{{define "css"}} <link rel="stylesheet" href="assets/css/post.css"> {{end}}
+{{define "body"}}
+    <div id="title">{{.Title}}</div>
+    <div id="category">Catégorie: {{.Category}}</div>
+    <div id="like">{{.Like}} Likes
+        <form action="/like" method="post">
+        <button name="id" type="submit" value="{{.Id}}"><img src="./assets/images/logo/like.png"></button>
+        </form>
+    </div>
+    <pre id="post">
+        <div id="text">{{.Content}}</div>
+        <div id="date">{{.Date}}</div>
+    </pre>
+{{end}}

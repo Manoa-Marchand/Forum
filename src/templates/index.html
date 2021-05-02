@@ -1,0 +1,139 @@
+{{template "template" .}}
+{{define "title"}}Forum{{end}}
+{{define "css"}} <link rel="stylesheet" href="assets/css/index.css"> {{end}}
+{{define "body"}}
+    <div id="title">Bienvenue sur <br><span style="font-size: 70px;">FORUM</span></div>
+    <div id="center">
+        <div id="left">
+            <h2> Post les plus likés</h2>
+            {{range $article := .Posts}}
+              <form action="/post?id={{$article.Id}}" method="post">
+                <button id="button" name="id" type="submit" value="{{$article.Id}}">
+                    <div id="titleButton"><h3>{{$article.Title}}</h3></div>
+                    <div id="likeButton">
+                      <h4>{{$article.Like}} Likes</h4>
+                      <div id="category">{{$article.Category}}</div>
+                    </div>
+                    
+                </button>
+              </form>
+            {{end}}
+        </div>
+
+
+        <div id="right"><div id="text">Bonjour à vous sur notre site forum. <br>
+            Ici vous pouvez créer des posts sur le sujet de votre choix 
+            ou répondre à des posts déjà existants et les liker si vous 
+            les trouvez pertinents. <br>
+            Vous pouvez aussi rechercher une thématique qui vous 
+            intéresse et peut-être qu'un ou des posts sur le sujet 
+            existent déjà.</div></div>
+    </div>
+    {{if .Erreur}}
+        <div id="erreur">
+        <div class="modal-content animate">
+            <div class="headerModal">
+              <span onclick="document.getElementById('erreur').style.display='none'" class="close">&times;</span>
+              <div id="titlenewPost">Erreur</div>
+            </div>
+            <div id="content">{{.Erreur}}</div>
+        </div>
+        </div>
+    {{end}}
+    {{if .Login}}
+    <div id="logout">
+        <form class="modal-content animate" action="/logout" method="POST">
+            <div class="headerModal">
+              <span onclick="document.getElementById('logout').style.display='none'" class="close">&times;</span>
+              <div id="titlenewPost">Déconnexion</div>
+            </div>
+            <div id="logoutContent">
+                <div id="logoutText">Etes-vous sur de vouloir vous déconnecter ?</div>
+                <button type="submit" class="submitLogin">Déconnexion</button>
+            </div>
+        </div>
+        </form>
+        </div>
+    {{end}}
+    {{if .Post}}  
+        <div id="newPost">
+            <form class="modal-content animate" action="/newpost" method="post" id="newpostForm">
+                <div class="headerModal">
+                    <span onclick="document.getElementById('newPost').style.display='none'" class="close">&times;</span>
+                    <div id="titlenewPost">Créer un nouveau post</div>
+                </div>
+                <div id="infonewPost">
+                    <label for="titlePost"><b>Titre</b></label>
+                    <input type="text" placeholder="Titre" name="titlePost" required>
+                    <label for="contentPost"><b>Contenu</b></label>
+                    <textarea name="contentPost" id="contentPost" form="newpostForm" required placeholder="Text"></textarea>
+                    <label for="category"><b>Catégorie</b></label>
+                    <select name="categoryPost" id="selectCategory" required>
+                      <option value="" disabled>Choisissez une catégorie</option>
+                      <option value="gaming">Gaming</option>
+                      <option value="dev">développement</option>
+                      <option value="hardware">Hardware</option>
+                      <option value="autre">Autre</option>
+                    </select>
+                </div>
+                <div id="footernewPost">
+                    <button type="submit" id="submitnewPost">Créer le poste</button>
+                </div>
+            </form>
+        </div>
+    {{end}}
+
+    {{if .PasLogin}}
+    <div id="connexionModal">
+        <form class="modal-content animate" action="/login" method="post">
+          <div class="headerModal">
+            <span onclick="document.getElementById('connexionModal').style.display='none'" class="close">&times;</span>
+            <div class="titleLogin">Connexion</div>
+          </div>
+          <div id="infoLogin">
+            <label for="email"><b>Adresse mail</b></label>
+            <input type="email" placeholder="Adresse Mail" name="email" required>
+      
+            <label for="psw"><b>Mot de passe</b></label>
+            <input type="password" placeholder="Mot de passe" name="psw" required>
+              
+            <button type="submit" class="submitLogin">Connexion</button>
+          </div>
+      
+          <div id="footerLogin">
+            <button type="button" onclick="document.getElementById('connexionModal').style.display='none'" class="cancelbuton">Annuler</button>
+            <div id="loginToSignup">Pas encore inscrit ? <button class="buttonlogtosign" onclick="logToSign()">Inscription</button></div>
+          </div>
+        </form>
+    </div>
+    {{end}}
+    <div id="inscriptionModal" class="modal">
+        <form class="modal-content animate" action="/register" method="post">
+          <div class="headerModal">
+            <span onclick="document.getElementById('inscriptionModal').style.display='none'" class="close">&times;</span>
+            <div class="titleLogin">Inscription</div>
+          </div>
+          <div id="infoLogin">
+            <label for="firstname"><b>Prénom</b></label>
+            <input type="text" placeholder="Prénom" name="firstname" required>
+            <label for="pseudo"><b>Pseudo</b></label>
+            <input type="text" placeholder="Pseudo" name="pseudo" required>
+            <label for="email"><b>Adresse mail</b></label>
+            <input type="email" placeholder="Adresse Mail" name="email" required>
+            <label for="psw"><b>Mot de passe</b></label>
+            <input type="password" placeholder="Mot de passe" name="psw" required>
+            <label for="psw"><b>Confirmation Mot de passe</b></label>
+            <input type="password" placeholder="Mot de passe" name="confirmpsw" required>
+              
+            <button type="submit" class="submitLogin">Inscription</button>
+          </div>
+      
+          <div id="footerLogin">
+            <button type="button" onclick="document.getElementById('inscriptionModal').style.display='none'" class="cancelbuton">Annuler</button>
+            <div id="loginToSignup">Vous avez deja un compte ? <button class="buttonlogtosign" onclick="signToLog()">Connexion</button></div>
+          </div>
+        </form>
+    </div>
+
+
+{{end}}

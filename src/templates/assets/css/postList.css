@@ -1,0 +1,38 @@
+#title{
+    text-align: center;
+    font-size: 44px;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+
+#button{
+    margin: 0 auto;
+    text-decoration: none;
+    background-color: white;
+    border: #707070 solid 1px;
+    border-radius: 10px;
+    width: 500px;
+    height: 75px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+}
+
+#titleButton{
+    padding-top: 25px;
+}
+
+#liste{
+    display: grid;
+    grid-gap: 60px;
+    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+}
+
+#category{
+    height: 17px;
+    width: 70px;
+    background-color: #ABFF4F;
+    margin-top: 30px;
+    border-radius: 10px;
+    margin: 30px auto 0 auto;
+  }

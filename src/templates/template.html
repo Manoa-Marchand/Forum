@@ -1,0 +1,78 @@
+{{define "template"}}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>{{template "title" .}}</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/template.css">
+    {{template "css" .}}
+</head>
+<body>
+    <header>
+      <div id="headerbuttonlogin">
+        <form action="/looklog" method="post">
+          <button id="buttonloginheader" type="submit"><img class="imageheader" src="./assets/images/logo/user.png"></button>
+        </form>
+      </div>
+      <div class="headerbutton">
+        <form action="/" method="post">
+          <img class="imageheader" src="./assets/images/logo/home.png">
+          <button class="buttonHeader" type="submit">Accueil</button>
+        </form>
+      </div>
+      <div class="headerbutton">
+        <form action="/posts" method="post">
+          <img class="imageheader" src="./assets/images/logo/message.png">
+          <button class="buttonHeader" type="submit">Posts</button>
+        </form>
+      </div>
+      <div class="headerbutton">
+        <img class="imageheader" src="./assets/images/logo/search.png">
+        <button class="buttonHeader">Recherche</button>
+      </div>
+      <div class="headerbutton">
+        <form action="/wantpost" method="post">
+          <img class="imageheader" src="./assets/images/logo/pen.png" >
+          <button class="buttonHeader" type="submit">Nouveau</button>
+        </form>
+      </div>
+        <!--<button id="buttonLogin" onclick="document.getElementById('connexionModal').style.display='block'">Connexion</button>
+        <button id="buttonSignup" onclick="document.getElementById('inscriptionModal').style.display='block'">Inscription</button>
+        <button id="buttonNewPost" onclick="document.getElementById('newpostModal').style.display='block'">Créer un nouveau post</button>
+        -->
+    </header>
+    
+    
+
+    
+    {{template "body" .}}
+    <script>
+        var Signup = document.getElementById('inscriptionModal'); 
+        var Login = document.getElementById('connexionModal');
+        var erreur = document.getElementById('erreur');
+        var logout = document.getElementById('logout');
+        window.onclick = function(event) {
+            if (event.target == Signup) {
+                Signup.style.display = "none";
+            } else if (event.target == Login) {
+              Login.style.display = "none";
+            } else if (event.target == erreur) {
+              erreur.style.display = "none";
+            } else if (event.target == logout) {
+              logout.style.display = "none";
+            }
+        }
+        function logToSign() {
+          Login.style.display = "none";
+          Signup.style.display = "block";
+        }
+        function signToLog() {
+          Signup.style.display = "none";
+          Login.style.display = "block"
+        }
+    </script>
+</body>
+</html>
+{{end}}

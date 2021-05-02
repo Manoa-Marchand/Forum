@@ -1,0 +1,298 @@
+#title{
+    background-color: #08BDBD;
+    height: 150px;
+    text-align: center;
+    margin-top: 25px;
+    padding-top: 10px;
+    color: white;
+    font-size: 44px;
+}
+#center{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 50px;
+    margin-top: 75px;
+    height: 500px;
+}
+#left{
+    text-align: center;
+}
+#text{
+    padding: 0 5px;
+    margin: 10px auto;
+    width: 90%;
+    background-color: white;
+    font-size: 25px;
+    border: #707070 solid 1px;
+    border-radius: 5px;
+}
+h2{
+    margin: 30px 0;
+}
+h3{
+    text-decoration: underline;
+    font-size: 19px;
+    padding-top: 25px;
+}
+h4{
+    font-size: 15px;
+    color: #707070;
+}
+#category{
+  height: 17px;
+  width: 70px;
+  background-color: #ABFF4F;
+  margin-top: 30px;
+  border-radius: 10px;
+  margin: 30px auto 0 auto;
+}
+
+#button{
+    margin: 0 auto 65px auto;
+    text-decoration: none;
+    background-color: white;
+    border: #707070 solid 1px;
+    border-radius: 10px;
+    width: 90%;
+    height: 75px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+}
+/*Centrer verticalement le titre et mettre le nome de like en bas*/
+#titleButton{
+    height: 100%;
+}
+#likeButton {
+    text-align: center;
+    padding-left: 20px;
+    height: 100%;
+
+}
+/*Erreur*/
+#erreur {
+    display: block; 
+    position: fixed; 
+    z-index: 10;
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.4); 
+    padding-top: 60px;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+#content {
+    text-align: center;
+    background-color: red;
+    color: white;
+    margin: 5% auto ; 
+    width: 90%;
+    padding: 5px;
+}
+/*New post*/
+ 
+textarea{
+    width: 100%;
+    height: 100px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    resize: none;
+  }
+#newPost{
+    display: block; 
+    position: fixed; 
+    z-index: 10;
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.4); 
+    padding-top: 60px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+  #titlenewPost{
+    font-size: 25px;
+    font-weight: bold;
+  }
+  #infonewPost{
+    padding: 16px;
+  }
+  
+  #footernewPost{ 
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  #submitnewPost{
+    width: auto;
+    padding: 10px;
+    background-color: #4CAF50;
+    border: none;
+    cursor: pointer;
+    color: white;
+  }
+
+  /*Popup Login*/
+#connexionModal{
+    display: block; 
+    position: fixed; 
+    z-index: 10;
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+input{
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+select{
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+  
+.titleLogin{
+    font-size: 25px;
+    font-weight: bold;
+}
+.submitLogin {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  .cancelbuton {
+    width: auto;
+    padding: 10px 18px;
+    background-color: #f44336;
+    border: none;
+    cursor: pointer;
+    color: white;
+  }
+
+  .headerModal {
+    text-align: center;
+    margin: 24px 0 12px 0;
+    position: relative;
+  }
+
+  #infoLogin{
+      padding: 16px;
+  }
+
+  #footerLogin {
+    padding: 16px;
+    background-color: white;
+  }
+  
+  #loginToSignup {
+    float: right;
+    padding: 10px;
+  }
+
+  .buttonlogtosign {
+    border: none;
+    background-color: #fefefe;
+    font-size: 18px;
+  }
+
+  #inscriptionModal{
+    display: none; 
+    position: fixed; 
+    z-index: 10;
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  #logout{
+    display: block; 
+    position: fixed; 
+    z-index: 10;
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.4); 
+    padding-top: 60px;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  #logoutContent{
+      padding: 16px;
+  }
+  #logoutText{
+      margin: 20px 0;
+      font-size: 22px;
+  }
+
+  
+  
+  /* Modal*/
+  .modal-content {
+    background-color: #fefefe;
+    margin: 5% auto 15% auto; 
+    border: 1px solid #444;
+    width: 70%;
+  }
+  
+  .close {
+    position: absolute;
+    right: 25px;
+    top: 0;
+    color: #000;
+    font-size: 35px;
+    font-weight: bold;
+  }
+  
+  .close:focus, .close:hover{
+    color: red;
+    cursor: pointer;
+  }
+
+
+  /*animation*/
+  
+  .animate {
+    -webkit-animation: animatezoom 0.6s;
+    animation: animatezoom 0.6s
+  }
+  
+  @-webkit-keyframes animatezoom {
+    from {-webkit-transform: scale(0)} 
+    to {-webkit-transform: scale(1)}
+  }
+    
+  @keyframes animatezoom {
+    from {transform: scale(0)} 
+    to {transform: scale(1)}
+  }
+  

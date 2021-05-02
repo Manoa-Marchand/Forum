@@ -1,0 +1,21 @@
+{{template "template" .}}
+{{define "title"}}Forum{{end}}
+{{define "css"}} <link rel="stylesheet" href="assets/css/postList.css"> {{end}}
+{{define "body"}}
+    <div id="title">Liste des Posts</div>
+    <div id="liste">
+        {{range .}}
+        {{if .Title}}
+        <form action="/post?id={{.Id}}" method="post">
+            <button id="button" name="id" type="submit" value="{{.Id}}">
+                <div id="titleButton"><h3>{{.Title}}</h3></div>
+                <div id="likeButton">
+                    <h4>{{.Like}} Likes</h4>
+                    <div id="category">{{.Category}}</div>
+                  </div>
+            </button>
+        </form>
+        {{end}}
+        {{end}}
+    </div>
+{{end}}

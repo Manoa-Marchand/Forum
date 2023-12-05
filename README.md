@@ -1,4 +1,4 @@
-# Groupie Tracker
+# Golang Forum
 The Golang Forum is a project that consists of create a site to discute with a community about various idea. Users can create many posts and react with likes or comments on others posts. All the web site include a login system. 
 
 ## Authors:

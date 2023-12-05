@@ -13,13 +13,8 @@ Pierre-Louis Bertin
 ## Installation:
 To download and use this project run this in your terminal:
 ```
-git clone git@git.ytrack.learn.ynov.com:BAUMEUNIER/forum.git
+git clone https://github.com/Manoa-Marchand/Forum.git
 cd forum/src
 go run main.go
 ```
 To access it, you can open a browser and enter <http://127.0.0.1:8080/> if you didn't change the port. The correct port is write on the consol
-
-## Example:
-
-![alt text](https://git.ytrack.learn.ynov.com/BAUMEUNIER/forum/raw/branch/master/livrable/image/Capture%20d%e2%80%99%c3%a9cran%201.png) 
-![alt text](https://git.ytrack.learn.ynov.com/BAUMEUNIER/forum/raw/branch/master/livrable/image/Capture%20d%e2%80%99%c3%a9cran%202.png)
